@@ -15,7 +15,7 @@ def list_books():
     #]
     book_records = Book.query.all()
     print(book_records)
-    books = parsed_records(book_records)
+    books = parse_records(book_records)
     return jsonify(books)
 
 @book_routes.route("/books")
