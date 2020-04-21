@@ -3,3 +3,6 @@
 # ignore dev db:
 migrations
 *.db
+
+# ignore secret creds:
+.env
