@@ -17,7 +17,7 @@ def api_client():
 
     api = tweepy.API(auth)
     print("API", api) #> <tweepy.api.API object at 0x110899790>
-    print(dir(api))
+    #print(dir(api))
 
     return api
 
