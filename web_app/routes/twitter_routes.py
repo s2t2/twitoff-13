@@ -14,7 +14,7 @@ def fetch_user_data(screen_name=None):
 
     api = api_client()
     twitter_user = api.get_user(screen_name)
-    statuses = api.user_timeline(screen_name, tweet_mode="extended", count=150, exclude_replies=True, include_rts=False)
+    statuses = api.user_timeline(screen_name, tweet_mode="extended", count=150)
     print("STATUSES COUNT:", len(statuses))
 
     #new_book = Book(title=request.form["book_title"], author_id=request.form["author_name"])
