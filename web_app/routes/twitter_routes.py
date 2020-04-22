@@ -1,8 +1,8 @@
 # web_app/routes/twitter_routes.py
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, render_template
 
-from web_app.models import User, Tweet, db
+from web_app.models import User, Tweet, db, parse_records
 from web_app.services.twitter_service import api_client
 from web_app.services.basilica_service import connection as basilica_connection
 
@@ -63,3 +63,20 @@ def fetch_user_data(screen_name=None):
 
     return "OK"
     #return render_template("user.html", user=db_user, tweets=statuses) # tweets=db_tweets
+
+@twitter_routes.route("/users")
+def list_users_human_friendly():
+    db_users = User.query.all()
+    return render_template("users.html", users=db_users)
+
+@twitter_routes.route("/users.json")
+def list_users():
+    db_users = User.query.all()
+    users_response = parse_records(db_users)
+    return jsonify(users_response)
+
+@twitter_routes.route("/users/<screen_name>")
+def get_user(screen_name=None):
+    print(screen_name)
+    db_user = User.query.filter(User.screen_name == screen_name).one()
+    return render_template("user.html", user=db_user, tweets=db_user.tweets)
