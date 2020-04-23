@@ -1,5 +1,7 @@
 # web_app/__init__.py
 
+import os
+from dotenv import load_dotenv
 from flask import Flask
 
 from web_app.models import db, migrate
@@ -9,15 +11,17 @@ from web_app.routes.book_routes import book_routes
 from web_app.routes.twitter_routes import twitter_routes
 from web_app.routes.stats_routes import stats_routes
 
-DATABASE_URI = "sqlite:////Users/mjr/Desktop/twitoff-13/twitoff_13.db" # TODO: read from env var
-SECRET_KEY = "super secret" # TODO: read from env var
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+SECRET_KEY = os.getenv("SECRET_KEY", default="super secret")
 
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = SECRET_KEY # required for flash messaging
 
     # configure the database:
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # suppress warning messages
     db.init_app(app)
     migrate.init_app(app, db)
